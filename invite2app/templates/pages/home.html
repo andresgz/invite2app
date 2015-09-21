@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="" ng-controller="MainController">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>My Friends</h2>
+            </div>
+            <div class="col-md-6 text-right">
+                        {{ selected_friends }}
+            <form name="inviteForm" ng-submit="submitForm()" novalidate>
+                <input type="hidden" ng-model="value_friends" required>
+                <button href="#" class="btn btn-primary">Invite Friends</button>
+            </form>
+            </div>
+        </div>
+
+        {% verbatim %}
+
+            <div class="row">
+
+              <div class="col-sm-6 col-md-4 box-friend" ng-repeat="friend in friends">
+                <label>
+                <div class="thumbnail">
+                <input type="checkbox" ng-model="chk" ng-click="update_invite_friends(friend,$index,chk)">
+                  <img src="{{ friend.picture.data.url }}" alt="">
+                  <div class="caption">
+                    <span class="title">{{ friend.name }}</span>
+                    <p><a href="#" class="btn btn-primary" role="button" ng-show="friendInApp(friend.name)">Enrolled</a></p>
+                  </div>
+                </div>
+                </label>
+              </div>
+
+            </div>
+        
+        {% endverbatim %}
+
+        
+    </div>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+
+{% endblock content %}

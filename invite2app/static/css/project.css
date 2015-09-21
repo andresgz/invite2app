@@ -1,0 +1,15 @@
+.alert-debug {
+  color: black;
+  background-color: white;
+  border-color: #d6e9c6; }
+
+.alert-error {
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #eed3d7; }
+
+.box-friend {
+  min-height: 100px; }
+  .box-friend :hover {
+    background-color: #f5f5f5;
+    cursor: pointer; }
