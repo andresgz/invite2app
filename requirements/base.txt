@@ -36,7 +36,9 @@ pytz==2015.4
 django-redis==4.2.0
 redis>=2.10.0
 
-
-
 # Django Rest
 djangorestframework==3.2.3
+
+# Compressor
+django-compressor==1.5
+django-htmlmin==0.7.0

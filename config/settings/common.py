@@ -41,7 +41,7 @@ THIRD_PARTY_APPS = (
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
     'allauth.socialaccount.providers.facebook',
-    'corsheaders',
+    "compressor",
 
 )
 
@@ -66,6 +66,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'htmlmin.middleware.HtmlMinifyMiddleware',
+    'htmlmin.middleware.MarkRequestMiddleware',
 )
 
 # MIGRATIONS CONFIGURATION
@@ -190,6 +192,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 # MEDIA CONFIGURATION
@@ -315,4 +318,6 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken'
 )
 
-INVITE_MESSAGE = ' Hola Te invito a que pruebes https://www.swapps.co'
+INVITE_MESSAGE = env(
+    'APP_URL',
+    default='Hola Te invito a que pruebes esta aplicación')

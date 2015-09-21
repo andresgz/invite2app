@@ -1,4 +1,4 @@
-{% load staticfiles i18n socialaccount %}<!DOCTYPE html>
+{% load staticfiles i18n socialaccount compress %}<!DOCTYPE html>
 <html lang="en" ng-app="frontApp">
   <head>
     <meta charset="utf-8">
@@ -16,11 +16,12 @@
     {% block css %}
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
-
     <!-- Your stuff: Third-party css libraries go here -->
 
     <!-- This file store project specific CSS -->
+    {% compress css %}
     <link href="{% static 'css/project.css' %}" rel="stylesheet">
+    {% endcompress %}
     {% endblock %}
 
   </head>
@@ -98,6 +99,7 @@
       <!-- Your stuff: Third-party javascript libraries go here -->
 
     <!-- bower:js -->
+{% compress js %}
     <script src="{% static "bower_components/jquery/dist/jquery.js" %}"></script>
     <script src="{% static "bower_components/angular/angular.js" %}"></script>
     <script src="{% static "bower_components/angular-animate/angular-animate.js" %}"></script>
@@ -113,6 +115,7 @@
       <script src="{% static 'scripts/controllers/main.js' %}"></script>
       <script src="{% static 'scripts/services/user.js' %}"></script>
       <script src="{% static 'scripts/services/friend.js' %}"></script>
+{% endcompress %}
     {% endblock javascript %}
   </body>
 </html>
