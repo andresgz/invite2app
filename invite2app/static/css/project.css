@@ -26,6 +26,8 @@
       font-size: 14px; }
   .box-friend .media {
     border-radius: 10px; }
+    .box-friend .media img {
+      width: 64px; }
 
 .btn-invite {
   margin-left: 20px;
