@@ -319,5 +319,7 @@ CORS_ALLOW_HEADERS = (
 )
 
 INVITE_MESSAGE = env(
-    'APP_URL',
-    default='Hola Te invito a que pruebes esta aplicación')
+    'INVITE_MESSAGE',
+    default='Hola Te invito a que pruebes esta aplicación en ' + APP_URL)
+
+COMPRESS_ENABLED = False
