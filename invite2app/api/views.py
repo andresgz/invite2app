@@ -43,9 +43,7 @@ class FriendsUsingApp(APIView):
 
     def post(self, request):
         friends_ids = request.data.get('friends_ids')
-        print request.data
         graph = FacebookAuth(request.user.id).get_graph()
-        print request.user.id
         try:
             graph.put_object(
                 parent_object='me', connection_name='feed',

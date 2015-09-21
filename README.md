@@ -10,34 +10,41 @@ Demo: http://ec2-52-89-15-237.us-west-2.compute.amazonaws.com/
 Application Setup
 ==================
 
-Uses Django 1.8.4, and the requirements are specified in the requirements.txt file
+Uses Django 1.8.4. and Django Rest Framework for the backend and for the front-end: AngularJS, Bower, Grunt and NodeJS for some required packages.
 
-Uses PostgresSQL. An empty Database is required to run migrations.
 
-To configure Database set the Enviroment variable DATABASE_URL. For example:
+1. Install Python Requirements:
+-------------------------------
+You need to have python installed. Python Virtualenv is recommended but not required. To install dependencies run the following command:
+
+    pip install -r requirements/local.txt
+
+2. Configure Database:
+---------------------
+
+Create a Postgres database and set the Enviroment variable DATABASE_URL. For example:
 
     export DATABASE_URL=postgres://example_user:password@localhost:5432/invite2app
 
-1. Populate Database:
----------------------
+Then run Django migrations to pupulate database:
 
     python manage.py migrate
 
 
-2. Create Super User:
+3. Create Super User:
 ---------------------
 
     python manage.py createsuperuser
 
 
-3. Run Development Server
+4. Run Development Server
 -------------------------
 
     python manage.py runserver
 
 The application will run at http://localhost:8000
 
-4. Configure Facebook application
+5. Configure Facebook application
 ---------------------------------
 
 Log in as administrator with the previous account and configure the Facebook app at:
@@ -51,7 +58,7 @@ Provide the Facebook credentials in the fields: Client id and Secret key as foll
     Secret key   :  App Secret
 
 
-5. Additional Enviroment Variables
+6. Additional Enviroment Variables
 -----------------------------------
 
 These variables are optional and required for the Facebook JS SDK to be defined explicitly. Bye default, it uses local values.
@@ -60,7 +67,7 @@ These variables are optional and required for the Facebook JS SDK to be defined 
     FACEBOOK_APP _ID    :  Facebook application id obtained in last step 
     INVITE_MESSAGE      :  Custom message of the Invite Message
 
-6. Front-end configuration
+7. Front-end configuration
 --------------------------
 
 Make sure that nodejs is installed. Then in the project root run:
