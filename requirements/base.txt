@@ -36,8 +36,12 @@ pytz==2015.4
 django-redis==4.2.0
 redis>=2.10.0
 
+#Facebook SDK
+facebook-sdk==0.4.0
+
 # Django Rest
 djangorestframework==3.2.3
+django-cors-headers==1.1.0
 
 # Compressor
 django-compressor==1.5

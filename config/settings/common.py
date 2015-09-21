@@ -299,7 +299,7 @@ SOCIALACCOUNT_PROVIDERS = \
     }
 
 APP_URL = env('APP_URL', default='http://localhost:8000')
-FACEBOOK_APP_ID = env('FACEBOOK_APP_ID')
+FACEBOOK_APP_ID = env('FACEBOOK_APP_ID', default='')
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
