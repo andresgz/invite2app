@@ -1,4 +1,4 @@
-{% load staticfiles i18n %}<!DOCTYPE html>
+{% load staticfiles i18n socialaccount %}<!DOCTYPE html>
 <html lang="en" ng-app="frontApp">
   <head>
     <meta charset="utf-8">
@@ -25,37 +25,47 @@
 
   </head>
 
-  <body>
+  <body {% if request.user.is_authenticated %}ng-controller="MainController"{% endif %}>
     
     <div class="m-b-lg">
-      <nav class="navbar navbar-dark navbar-static-top bg-inverse">
+      <nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
         <div class="container">
          <a class="navbar-brand" href="/">Invite2App</a>
           <button type="button" class="navbar-toggler hidden-sm-up pull-right" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
             &#9776;
           </button>
+            {% if request.user.is_authenticated %}
+            {% verbatim %}
+            <button  class="btn btn-primary pull-right hidden-sm-up btn-invite" ng-click="submitForm()">Invite <span ng-show="selected_friends.length>0">{{ selected_friends.length }}</span> Friends</button>
+            {% endverbatim %}
+            {% endif %}
+
 
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-toggleable-xs" id="bs-navbar-collapse-1">
             <nav class="nav navbar-nav">
-              <a class="nav-link nav-item" href="{% url 'home' %}">Home</a></li>
             </nav>
-        
+            {% if request.user.is_authenticated %}
+            {% verbatim %}
+            <button  class="hidden-sm hidden-xs btn btn-primary pull-right btn-invite" ng-click="submitForm()">Invite <span ng-show="selected_friends.length>0">{{ selected_friends.length }}</span> Friends</button>
+            {% endverbatim %}
+            {% endif %}
+
             <nav class="nav navbar-nav pull-right">
               {% if request.user.is_authenticated %}
-                <a class="nav-link nav-item" href="{% url 'users:detail' request.user.username  %}">{% trans "My Profile" %}</a></li>
-                <a class="nav-link nav-item" href="{% url 'account_logout' %}">{% trans "Logout" %}</a></li>
+                <li><a class="nav-link nav-item" href="{% url 'account_logout' %}">{% trans "Logout" %}</a></li>
               {% else %}
-                <a class="nav-link nav-item" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a></li>
-                <a class="nav-link nav-item" href="{% url 'account_login' %}">{% trans "Log In" %}</a></li>
+               
+                <li><a class="nav-link nav-item" href="{% provider_login_url 'facebook' process=process %}">{% trans "Log In" %}</a></li>
               {% endif %}
             </nav>
+
           </div>
         </div>
       </nav>
     </div>
 
-    <div class="container">
+    <div class="container app-container">
 
       {% if messages %}
           {% for message in messages %}
@@ -95,6 +105,7 @@
     <script src="{% static "bower_components/bootstrap/dist/js/bootstrap.js" %}"></script>
     <script src="{% static "bower_components/bootbox/bootbox.js" %}"></script>
     <script src="{% static "bower_components/ngBootbox/dist/ngBootbox.js" %}"></script>
+    <script src="{% static "bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js" %}"></script>
     <!-- endbower -->
       <!-- place project specific Javascript in this file -->
       <script src="{% static 'js/project.js' %}"></script>

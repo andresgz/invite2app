@@ -1,42 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="" ng-controller="MainController">
-        <div class="row">
-            <div class="col-md-6">
-                <h2>My Friends</h2>
-            </div>
-            <div class="col-md-6 text-right">
-                        {{ selected_friends }}
-            <form name="inviteForm" ng-submit="submitForm()" novalidate>
-                <input type="hidden" ng-model="value_friends" required>
-                <button href="#" class="btn btn-primary">Invite Friends</button>
-            </form>
-            </div>
-        </div>
-
+    <div class="" >
         {% verbatim %}
+            <form name="inviteForm" novalidate>
+                <input type="hidden" ng-model="value_friends" required>
+            </form>
 
-            <div class="row">
-
-              <div class="col-sm-6 col-md-4 box-friend" ng-repeat="friend in friends">
-                <label>
-                <div class="thumbnail">
-                <input type="checkbox" ng-model="chk" ng-click="update_invite_friends(friend,$index,chk)">
-                  <img src="{{ friend.picture.data.url }}" alt="">
-                  <div class="caption">
-                    <span class="title">{{ friend.name }}</span>
-                    <p><a href="#" class="btn btn-primary" role="button" ng-show="friendInApp(friend.name)">Enrolled</a></p>
-                  </div>
-                </div>
-                </label>
+            <div class="row" infinite-scroll='loadFriends()' infinite-scroll-distance='0'>
+              <div  ng-repeat="friend in friends" ng-click="update_invite_friends(friend,$index)" ng-class="friend.active ? 'friend-selected col-md-6 box-friend' : 'col-md-6 box-friend' ">
+                  <div class="media">
+                    <a href="" class="pull-left">        
+                      <img class="media-object img-thumbnail"  ng-src="{{ friend.picture.data.url }}">      
+                    </a>
+                    <div class="media-body">
+                      <h3 class="media-heading"><strong>{{ friend.name }}</strong></h3>
+                      <p class="small">
+                          <span class="label label-default" ng-hide="friendInApp(friend.name)">Not in App</span>
+                          <span class="label label-success" ng-show="friendInApp(friend.name)">Using App!</span>
+                          <span class="label label-primary" ng-show="friend.active">Ready to Invite!</span>
+                      </p>
+                    </div>
+                  </div>  
               </div>
 
-            </div>
-        
+            </div>        
         {% endverbatim %}
 
         
     </div>
 <script src="http://connect.facebook.net/en_US/all.js"></script>
-
 {% endblock content %}

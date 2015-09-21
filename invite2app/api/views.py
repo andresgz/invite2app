@@ -10,6 +10,7 @@ from rest_framework import status
 
 from django.conf import settings
 
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint for Users
@@ -67,13 +68,15 @@ class FacebookFriends(APIView):
         """
         Return a list of all users.
         """
+
+        after = request.GET.get('after', None)
         try:
             if not request.user.is_authenticated():
                 raise NotValidFacebookAccount("User needs to be authenticated")
             graph = FacebookAuth(request.user.id).get_graph()
             users = graph.get_connections(
                 id='me', connection_name='taggable_friends',
-                fields='name,picture', after='QWFJUHpiQmszYlN4OE50aWh2RkVmaXRpTWFQcXVFVmpQWEYxSVoyY3dJNURNWTd5YzdHX3hkLUJjbG5BUzRJX3I0cl9SR05IT1EzcjhKQ2ZATWHMzck5Od0FTZA21yXy1GVjdiWjMtZA1VmQ1BzSkEZD')
+                fields='name,picture', limit='30', after=after)
             data = users
         except NotValidFacebookAccount:
             data = []
