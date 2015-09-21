@@ -10,6 +10,7 @@
  */
 angular
   .module('frontApp', [
-// Future requirements
-    'ngResource'
+    'ngResource',
+    'ngBootbox',
+    'infinite-scroll'
   ]);

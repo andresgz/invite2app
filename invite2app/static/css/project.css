@@ -8,8 +8,25 @@
   background-color: #f2dede;
   border-color: #eed3d7; }
 
+.app-container {
+  margin-top: 100px; }
+
 .box-friend {
   min-height: 100px; }
-  .box-friend :hover {
+  .box-friend.friend-selected .media-body {
+    background-color: #dff0d8; }
+  .box-friend .media:hover {
     background-color: #f5f5f5;
     cursor: pointer; }
+  .box-friend .media-heading {
+    font-size: 18px; }
+  .box-friend .media-body {
+    padding-left: 10px; }
+    .box-friend .media-body span.label {
+      font-size: 14px; }
+  .box-friend .media {
+    border-radius: 10px; }
+
+.btn-invite {
+  margin-left: 20px;
+  font-size: 14px; }

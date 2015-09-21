@@ -1,7 +1,7 @@
 {
   "name": "front",
   "version": "0.0.0",
-  "directory" : "invite2app/static/bower_components",
+  "directory": "invite2app/static/bower_components",
   "dependencies": {
     "angular": "^1.3.0",
     "angular-animate": "^1.3.0",
@@ -12,7 +12,8 @@
     "angular-touch": "^1.3.0",
     "bootbox.js": "bootbox#~4.4.0",
     "bootstrap-sass-official": "^3.2.0",
-    "ngBootbox": "~0.1.1"
+    "ngBootbox": "~0.1.1",
+    "ngInfiniteScroll": "1.0.0"
   },
   "devDependencies": {
     "angular-mocks": "^1.3.0"

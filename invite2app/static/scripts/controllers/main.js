@@ -19,33 +19,58 @@ angular.module('frontApp')
     $scope.name_friends = [];
     // Chosen friends to send invite
     $scope.selected_friends = [];
+    // My friends retrieved in the API
+    $scope.friends = [];
 
-
+    var next_page = null;
+    var busy = false;
+    var load_ended = false;
     $scope.loadFriends = function(){
-        var request = Friend.query(function(){
-            $scope.friends = request.data;
+        if (busy) return;
+        if (load_ended) return;
+        busy = true;
+        var args = {};
+        if (next_page != null) {
+            args = {after: next_page};
+        }
+        var request = Friend.query(args, function(){
+            if(request.data.length>0){
+                $scope.friends = $scope.friends.concat(request.data);
+                next_page = request.paging.cursors.after;
+            }else{
+                load_ended = true;
+            }
+            busy = false;
         });
     };
 
-    $scope.loadFriends();
-
+    $scope.resetFriends = function(){
+        $scope.friends = [];
+        next_page = null;
+    };
+    // Collects the names of People using the application
     var friends_inside = FriendInside.query(function(){
         for(var index in friends_inside){
             $scope.name_friends.push(friends_inside[index].name);
         }
-
     });
 
-    // Executed when a checkbox is triggered
-    $scope.update_invite_friends = function(friend, index, invite_friend){
-        if(invite_friend){
+    // Executed when a friend is clicked
+    $scope.update_invite_friends = function(friend, index){
+        if($scope.friendInApp(friend.name)){
+            bootbox.alert("This user is already using the App.");
+            return;
+        }
+        var element_index = $scope.selected_friends.indexOf(friend.id);
+
+        if($scope.selected_friends.indexOf(friend.id)<0){
+            $scope.friends[index].active = true;
             $scope.selected_friends.push(friend.id);
         }else{
-            var element_index = $scope.selected_friends.indexOf(friend.id);
-            if(element_index > -1){
-                $scope.selected_friends.splice(element_index,1);
-            }
+            $scope.friends[index].active = false;
+            $scope.selected_friends.splice(element_index,1);
         }
+
         $scope.value_friends = $scope.selected_friends.join(',');
 
     }
@@ -57,17 +82,23 @@ angular.module('frontApp')
 
     // Handles the validation of the Invite form
     $scope.submitForm = function(){
+        console.log("submitForm");
         $scope.entry = new FriendInside();
         $scope.entry.friends_ids = $scope.value_friends;
 
             if ($scope.inviteForm.$valid) {
-                    FriendInside.save($scope.entry, function(data){ 
-                        bootbox.alert("Yur invitation was sent succesfully!");
-                        $scope.loadFriends();
 
-                    }, function(error){
-                        bootbox.alert("There was an error. Please try again");
-                    });
+                bootbox.confirm("You are about to invite "+$scope.selected_friends.length+" friends. Are you sure?", function(result) {
+                    if(result){
+                        FriendInside.save($scope.entry, function(data){ 
+                            bootbox.alert("Yur invitation was sent succesfully!");
+                            $scope.loadFriends();
+
+                        }, function(error){
+                            bootbox.alert("There was an error. Please try again");
+                        });
+                    }
+                }); 
             }else{
                 bootbox.alert("Please choose 1 or more fiends to invite!");
             }
