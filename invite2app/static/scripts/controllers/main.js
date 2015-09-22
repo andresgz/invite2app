@@ -80,9 +80,21 @@ angular.module('frontApp')
         return $scope.name_friends.indexOf(friend_name)>-1 ? true : false;
     };
 
+    // Uncheck the selected friends
+    // @todo: There is a better way by updating just the selected elements
+    $scope.resetSelectedFriends = function(){
+
+        $scope.$apply(function() {
+            for(var index in $scope.friends){
+                $scope.friends[index].active = false;
+            }
+            $scope.selected_friends = [];
+            $scope.value_friends = '';
+        });
+    };
+
     // Handles the validation of the Invite form
     $scope.submitForm = function(){
-        console.log("submitForm");
         $scope.entry = new FriendInside();
         $scope.entry.friends_ids = $scope.value_friends;
 
@@ -92,11 +104,11 @@ angular.module('frontApp')
                     if(result){
                         FriendInside.save($scope.entry, function(data){ 
                             bootbox.alert("Yur invitation was sent succesfully!");
-                            $scope.loadFriends();
 
                         }, function(error){
                             bootbox.alert("There was an error. Please try again");
                         });
+                        
                     }
                 }); 
             }else{
