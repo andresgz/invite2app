@@ -298,7 +298,7 @@ SOCIALACCOUNT_PROVIDERS = \
         }
     }
 
-APP_URL = env('APP_URL', default='http://localhost:8000')
+APP_URL = env('APP_URL', default=u'http://localhost:8000')
 FACEBOOK_APP_ID = env('FACEBOOK_APP_ID', default='')
 
 REST_FRAMEWORK = {
@@ -320,6 +320,6 @@ CORS_ALLOW_HEADERS = (
 
 INVITE_MESSAGE = env(
     'INVITE_MESSAGE',
-    default='Hola Te invito a que pruebes esta aplicación en ' + APP_URL)
+    default=u'Hola Te invito a que pruebes esta app en ' + APP_URL)
 
 COMPRESS_ENABLED = False

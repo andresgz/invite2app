@@ -43,15 +43,18 @@ class FriendsUsingApp(APIView):
 
     def post(self, request):
         friends_ids = request.data.get('friends_ids')
+        message = request.data.get('message', u'')
         graph = FacebookAuth(request.user.id).get_graph()
+
+        message_text = u' - '.join([message, settings.INVITE_MESSAGE])
         try:
             graph.put_object(
                 parent_object='me', connection_name='feed',
-                message=settings.INVITE_MESSAGE,
+                message=str(message_text),
                 tags=friends_ids)
         except Exception, e:
-            Exception(e)
-            return Response({}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': e.message},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         return Response({}, status=status.HTTP_201_CREATED)
 

@@ -83,32 +83,34 @@ angular.module('frontApp')
     // Uncheck the selected friends
     // @todo: There is a better way by updating just the selected elements
     $scope.resetSelectedFriends = function(){
-
-        $scope.$apply(function() {
-            for(var index in $scope.friends){
-                $scope.friends[index].active = false;
-            }
-            $scope.selected_friends = [];
-            $scope.value_friends = '';
-        });
+        var friends_clone = $scope.friends.slice(0);
+        for(var index in friends_clone){
+            friends_clone[index].active = false;
+        }
+        $scope.friends = friends_clone;
+        $scope.selected_friends = [];
+        $scope.value_friends = '';
     };
 
     // Handles the validation of the Invite form
     $scope.submitForm = function(){
         $scope.entry = new FriendInside();
         $scope.entry.friends_ids = $scope.value_friends;
-
             if ($scope.inviteForm.$valid) {
-
                 bootbox.confirm("You are about to invite "+$scope.selected_friends.length+" friends. Are you sure?", function(result) {
                     if(result){
-                        FriendInside.save($scope.entry, function(data){ 
-                            bootbox.alert("Yur invitation was sent succesfully!");
-
-                        }, function(error){
-                            bootbox.alert("There was an error. Please try again");
+                        bootbox.prompt("What do you wan to say?", function(result) {                
+                            if (result !== null) {
+                                $scope.entry.message = result;
+                                FriendInside.save($scope.entry, function(data){ 
+                                    bootbox.alert("Yur invitation was sent succesfully!");
+                                    $scope.resetSelectedFriends();
+                                }, function(error){
+                                    bootbox.alert("There was an error. Please try again");
+                                });
+                            } 
                         });
-                        
+
                     }
                 }); 
             }else{
